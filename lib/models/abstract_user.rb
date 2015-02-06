@@ -52,7 +52,7 @@ class User
   end
 
   def self.authenticate_by_name(name, pass)
-    current_user = get(:name => email)
+    current_user = get(:name => name)
     return nil if current_user.nil?
     return current_user if User.encrypt(pass, current_user.salt) == current_user.hashed_password
     nil
