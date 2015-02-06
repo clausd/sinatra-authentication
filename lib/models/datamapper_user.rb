@@ -2,6 +2,7 @@ class DmUser
   include DataMapper::Resource
 
   property :id, Serial
+  property :name, String, :length => (5..40), :unique => true
   property :email, String, :length => (5..40), :unique => true, :format => :email_address
   property :hashed_password, String
   property :salt, String

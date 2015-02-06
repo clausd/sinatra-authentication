@@ -25,7 +25,7 @@ class User
   elsif Object.const_defined?("Rufus") && Rufus.const_defined?("Tokyo")
     include TcAdapter
   elsif Object.const_defined?("MongoMapper")
-    include MmAdapter 
+    include MmAdapter
   elsif Object.const_defined?("Sequel")
     include SequelAdapter
   elsif Object.const_defined?("Mongoid")
@@ -46,6 +46,13 @@ class User
 
   def self.authenticate(email, pass)
     current_user = get(:email => email)
+    return nil if current_user.nil?
+    return current_user if User.encrypt(pass, current_user.salt) == current_user.hashed_password
+    nil
+  end
+
+  def self.authenticate_by_name(name, pass)
+    current_user = get(:name => email)
     return nil if current_user.nil?
     return current_user if User.encrypt(pass, current_user.salt) == current_user.hashed_password
     nil

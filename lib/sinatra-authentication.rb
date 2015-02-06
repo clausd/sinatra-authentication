@@ -55,7 +55,8 @@ module Sinatra
       end
 
       app.post '/login/?' do
-        if user = User.authenticate(params[:email], params[:password])
+        email_or_name = params[:email] || params[:name] || params[:email_or_name]
+        if user = User.authenticate(email_or_name, params[:password]) || User.authenticate_by_name(email_or_name, params[:password])
           session[:user] = user.id
 
           if Rack.const_defined?('Flash')
@@ -95,7 +96,8 @@ module Sinatra
       end
 
       app.post '/signup/?' do
-        @user = User.set(params[:user])
+        user_data = params[:user].select {|k| k != :permission_level}
+        @user = User.set(user_data)
         if @user.valid && @user.id
           session[:user] = @user.id
           if Rack.const_defined?('Flash')
