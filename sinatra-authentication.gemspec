@@ -49,7 +49,6 @@ Gem::Specification.new do |s|
     "lib/views/show.haml",
     "lib/views/signup.haml",
     "readme.markdown",
-    "sinatra-authentication-0.3.2.gem",
     "sinatra-authentication.gemspec",
     "spec/run_all_specs.rb",
     "spec/unit/dm_model_spec.rb",
