@@ -7,7 +7,7 @@ begin
   
   Jeweler::Tasks.new do |gemspec|
     gemspec.name           = 'sinatra-authentication'
-    gemspec.version        = '0.4.1'
+    gemspec.version        = '0.4.2'
     gemspec.description    = "Simple authentication plugin for sinatra."
     gemspec.summary        = "Simple authentication plugin for sinatra."
     gemspec.homepage       = "http://github.com/maxjustus/sinatra-authentication"
@@ -23,7 +23,8 @@ begin
     gemspec.add_dependency "rack-flash3"
   end
   Jeweler::GemcutterTasks.new
-rescue LoadError
+rescue LoadError => e
+  puts e.inspect
   puts "Jeweler (or a dependency) not available. Install it first!"
 end
 

@@ -5,7 +5,7 @@ group :test do
   gem 'rake'
   gem 'rspec'
 end
-
+gem 'jeweler'
 ##############################################
 # Other Dependancies
 # - Uncomment as needed.
