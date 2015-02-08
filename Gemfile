@@ -16,7 +16,7 @@ gem 'jeweler'
 #
 # Mongoid
 # gem 'mongoid'
-# 
+#
 # MongoMapper
 # gem 'mongo_mapper'
 #
