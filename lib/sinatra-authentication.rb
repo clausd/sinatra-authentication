@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require File.expand_path("../models/abstract_user", __FILE__)
-require File.expand_path("./sinatra_authenication/messages_en.rb", __FILE__)
+require File.expand_path("../sinatra-authentication/text/en.rb", __FILE__)
 
 module Sinatra
   module SinatraAuthentication
@@ -17,7 +17,7 @@ module Sinatra
       unless defined?(app.settings.template_engine)
         app.set :template_engine, :haml
       end
-      unless defined(app.settings.sinatra_authentication_messages)
+      unless defined?(app.settings.sinatra_authentication_messages)
         app.set :sinatra_authentication_messages, Text::En.messages
       end
 

@@ -1,6 +1,8 @@
-Test::Unit::TestCase.send :include, Rack::Test::Methods
+require 'rack/test'
 
-class SinatraAuthDataMapperTest < Test::Unit::TestCase
+class SinatraAuthDataMapperTest < Minitest::Test
+
+  include Rack::Test::Methods
 
   def setup
     post '/signup', TestHelper.gen_user

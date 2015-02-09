@@ -4,10 +4,10 @@ require 'rake'
 
 begin
   require 'jeweler'
-  
+
   Jeweler::Tasks.new do |gemspec|
     gemspec.name           = 'sinatra-authentication'
-    gemspec.version        = '0.4.2'
+    gemspec.version        = '0.4.3'
     gemspec.description    = "Simple authentication plugin for sinatra."
     gemspec.summary        = "Simple authentication plugin for sinatra."
     gemspec.homepage       = "http://github.com/maxjustus/sinatra-authentication"

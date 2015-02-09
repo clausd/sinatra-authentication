@@ -1,5 +1,5 @@
 require 'lib/ar_app'
 require 'lib/helper'
-require 'test/unit'
+require 'minitest/autorun'
 require 'rack/test'
 require 'route_tests'
