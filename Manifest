@@ -15,6 +15,8 @@ lib/views/index.haml
 lib/views/login.haml
 lib/views/show.haml
 lib/views/signup.haml
+lib/sinatra-authentication/text/en.rb
+lib/sinatra-authentication/text/da.rb
 readme.markdown
 test/datamapper_test.rb
 test/lib/dm_app.rb
