@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require File.expand_path("../models/abstract_user", __FILE__)
+require File.expand_path("./sinatra_authenication/messages_en.rb", __FILE__)
 
 module Sinatra
   module SinatraAuthentication
@@ -10,9 +11,14 @@ module Sinatra
       #sinatra 9.1.1 doesn't have multiple view capability anywhere
       #so to get around I have to do it totally manually by
       #loading the view from this path into a string and rendering it
-      app.set :sinatra_authentication_view_path, File.expand_path('../views/', __FILE__)
+      unless defined?(app.settings.sinatra_authentication_view_path)
+        app.set :sinatra_authentication_view_path, File.expand_path('../views/', __FILE__)
+      end
       unless defined?(app.settings.template_engine)
         app.set :template_engine, :haml
+      end
+      unless defined(app.settings.sinatra_authentication_messages)
+        app.set :sinatra_authentication_messages, Text::En.messages
       end
 
       app.get '/users/?' do
@@ -60,7 +66,7 @@ module Sinatra
           session[:user] = user.id
 
           if Rack.const_defined?('Flash')
-            flash[:notice] = "Login successful."
+            flash[:notice] = settings.sinatra_authentication_messages[:login_ok]
           end
 
           if session[:return_to]
@@ -72,7 +78,7 @@ module Sinatra
           end
         else
           if Rack.const_defined?('Flash')
-            flash[:error] = "The email or password you entered is incorrect."
+            flash[:error] = settings.sinatra_authentication_messages[:wrong_email_password]
           end
           redirect '/login'
         end
@@ -81,7 +87,7 @@ module Sinatra
       app.get '/logout/?' do
         session[:user] = nil
         if Rack.const_defined?('Flash')
-          flash[:notice] = "Logout successful."
+          flash[:notice] = settings.sinatra_authentication_messages[:logout_ok]
         end
         return_to = ( session[:return_to] ? session[:return_to] : '/' )
         redirect return_to
@@ -101,12 +107,12 @@ module Sinatra
         if @user.valid && @user.id
           session[:user] = @user.id
           if Rack.const_defined?('Flash')
-            flash[:notice] = "Account created."
+            flash[:notice] = settings.sinatra_authentication_messages[:account_created]
           end
           redirect '/'
         else
           if Rack.const_defined?('Flash')
-            flash[:error] = "There were some problems creating your account: #{@user.errors}."
+            flash[:error] = settings.sinatra_authentication_messages[:account_not_created] % {:errors => @user.errors}
           end
           redirect '/signup?' + hash_to_query_string(params['user'])
         end
@@ -132,12 +138,12 @@ module Sinatra
 
         if user.update(user_attributes)
           if Rack.const_defined?('Flash')
-            flash[:notice] = 'Account updated.'
+            flash[:notice] = settings.sinatra_authentication_messages[:account_updated]
           end
           redirect '/'
         else
           if Rack.const_defined?('Flash')
-            flash[:error] = "Whoops, looks like there were some problems with your updates: #{user.errors}."
+            flash[:error] = settings.sinatra_authentication_messages[:account_not_updated] % {:errors => user.errors}
           end
           redirect "/users/#{user.id}/edit?" + hash_to_query_string(user_attributes)
         end
@@ -149,11 +155,11 @@ module Sinatra
 
         if User.delete(params[:id])
           if Rack.const_defined?('Flash')
-            flash[:notice] = "User deleted."
+            flash[:notice] = account_updated[:account_deleted]
           end
         else
           if Rack.const_defined?('Flash')
-            flash[:error] = "Deletion failed."
+            flash[:error] = account_updated[:account_not_deleted]
           end
         end
         redirect '/'
