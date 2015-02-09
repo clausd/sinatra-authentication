@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require File.expand_path("../models/abstract_user", __FILE__)
 require File.expand_path("../sinatra-authentication/text/en.rb", __FILE__)
+require File.expand_path("../sinatra-authentication/text/da.rb", __FILE__)
 
 module Sinatra
   module SinatraAuthentication
